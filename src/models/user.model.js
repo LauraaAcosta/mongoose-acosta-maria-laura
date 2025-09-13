@@ -30,7 +30,9 @@ const UserSchema = new Schema(
                 required: true,
             },
         }
-    }
-);
+    },{
+        versionKey: false, 
+        timestamps: true,
+    });
 
 export const UserModel = model ("User", UserSchema);

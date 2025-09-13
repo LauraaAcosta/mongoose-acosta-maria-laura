@@ -1,0 +1,27 @@
+{
+  "name": "tp_mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "dev --watch app-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LauraaAcosta/mongoose-acosta-maria-laura.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LauraaAcosta/mongoose-acosta-maria-laura/issues"
+  },
+  "homepage": "https://github.com/LauraaAcosta/mongoose-acosta-maria-laura#readme",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mongoose": "^8.18.1"
+  }
+}

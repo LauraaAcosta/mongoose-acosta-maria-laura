@@ -19,21 +19,43 @@ export const createArticle = async (req,res) => {
             author,
             tags
         });
-        res.status(201).json({
+        return res.status(201).json({
             ok: true,
             msg: "El articulo ha sido creado correctamente",
             data: newArticle
         });
     }catch (error){
         console.log(error);
-        res.status(500).json({
+        return res.status(500).json({
             ok: false, 
             msg: "Ocurrió un error al crear el artículo"
         })
 
     }
 };
-    
+
+export const getArticle = async (req, res) => {
+    try {
+        const article = await articleModel.findById(req.params.id).populate(
+            "author", "username email").populate( "tags", "name description");
+        if (!article){
+            return res.status(404).json({
+                ok: false, 
+                msg: "No se logró encontrar el articulo"
+            });
+        }
+        return res.status(200).json({
+            ok: true, 
+            data: article
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok: false, 
+            msg: "Ocurrió un error al buscar el artículo"
+        });
+    }
+};
+
 export const getArticles = async (req, res) => {
     try {
         const articlers = await articleModel.find()-populate(
@@ -44,13 +66,13 @@ export const getArticles = async (req, res) => {
                     msg: "Estado de espera hasta que se agreguen articulos"
                 });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     ok: true,
                     msg: "No se logró encontrar el articulo",
                     data: articlers
                 });
             } catch (error){
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false, 
                     msg: "Ocurrió un error al buscar los artículos"
                 })
@@ -86,21 +108,13 @@ export const deleteArticle = async (req, res) => {
                 ok: false,
                 msg: "No se logró encontrar el articulo"
             });
-        }
-        return res.status(200).json({
-            ok: true, 
-            msg: "El articulo se eliminó exitosamente"
-        });
-    }catch (error){
-        return res.status(500).json({
-            ok: false, 
-            msg: "Ocurrió un error al eliminar el articulo"
-        });
-        if (article.tags.includes(tagId)){
-            return res.status(400).json({
+         }
+         const tag = await tagModel.findById(tagId);
+         if (!tag){
+            return res.status(404).json({
                 ok: false,
-                msg: "Error al buscar el articulo"
-        });
+                msg: "No se logró encontrar la etiqueta"
+            });
         }if (article.tags.includes(tagId)){
             return res.status(400).json({
                 ok: false,
@@ -112,5 +126,11 @@ export const deleteArticle = async (req, res) => {
         return res.status(200).json({
             ok: false,
             msg: "Ocurrió un error al agregar la etiqueta"
+        });
+     }
+    catch (error){
+        return res.status(500).json({
+            ok: false, 
+            msg: "Ocurrió un error al eliminar el articulo"
         });
     }}
